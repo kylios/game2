@@ -2,9 +2,8 @@ import GameObject from './GameObject'
 import Controller from './Controller'
 import KeyboardController from './KeyboardController'
 import RandomMotionController from './RandomMotionController'
-import Player from './Player'
-
-
+import Player from './objects/Player'
+import Mountain from './objects/Mountain'
 
 interface Dictionary<T> {
     [Key: string]: T;
@@ -74,4 +73,11 @@ class Game {
 }
 
 export default Game
-export { GameObject, Controller, KeyboardController, Player, RandomMotionController }
+export {
+	GameObject,
+	Controller,
+	KeyboardController,
+	Player,
+	Mountain,
+	RandomMotionController
+}

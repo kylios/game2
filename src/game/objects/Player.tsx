@@ -1,5 +1,5 @@
-import GameObject from './GameObject'
-import Controller from './Controller'
+import GameObject from '../GameObject'
+import Controller from '../Controller'
 
 const PLAYER_WIDTH: number = 16
 const PLAYER_HEIGHT: number = 16

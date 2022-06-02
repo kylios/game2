@@ -1,7 +1,12 @@
 import React from 'react';
 import './App.css';
 import Canvas from './Canvas'
-import Game, { Player, KeyboardController, RandomMotionController } from './game'
+import Game, {
+  Player,
+  KeyboardController,
+  RandomMotionController,
+  Mountain
+} from './game'
 
 const GAME_WIDTH = 640
 const GAME_HEIGHT = 480
@@ -18,6 +23,22 @@ class App extends React.Component<Props, State> {
   private keyboardController = new KeyboardController()
   private randomMotionController = new RandomMotionController()
   private player = new Player(GAME_WIDTH / 2, GAME_HEIGHT / 2)
+
+  private mountain1 = new Mountain(120, 120, {
+    corner1: {
+      x: 30,
+      y: -30
+    },
+    corner2: {
+      x: 80,
+      y: 50
+    },
+    corner3: {
+      x: -20,
+      y: 60
+    },
+    height: 180
+  })
 
   componentDidMount() {
 
@@ -38,6 +59,7 @@ class App extends React.Component<Props, State> {
     this.keyboardController.startCapturing()
 
     this.game.addObject(this.player)
+    this.game.addObject(this.mountain1)
     this.game.start()
   }
 
