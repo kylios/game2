@@ -4,6 +4,7 @@ import KeyboardController from './KeyboardController'
 import RandomMotionController from './RandomMotionController'
 import Player from './objects/Player'
 import Mountain from './objects/Mountain'
+import Tree from './objects/Tree'
 
 interface Dictionary<T> {
     [Key: string]: T;
@@ -79,5 +80,6 @@ export {
 	KeyboardController,
 	Player,
 	Mountain,
+	Tree,
 	RandomMotionController
 }

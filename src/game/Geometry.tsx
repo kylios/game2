@@ -10,6 +10,37 @@ interface Point {
 	z: number
 }
 
+interface Circle {
+	center: Point,
+	radius: number
+}
+
+function renderCircle(
+		ctx: CanvasRenderingContext2D,
+		circle: Circle,
+		fillStyle: string,
+		strokeStyle: string) {
+
+	ctx.fillStyle = fillStyle
+	ctx.strokeStyle = strokeStyle
+
+	ctx.beginPath()
+	ctx.arc(circle.center.x, circle.center.y, circle.radius, 0, 2 * Math.PI)
+	ctx.fill()
+	ctx.stroke()
+}
+
+function translateCircle(circle: Circle, translation: Vector): Circle {
+	return {
+		...circle,
+		center: {
+			x: circle.center.x + translation.x,
+			y: circle.center.y + translation.y,
+			z: circle.center.z + translation.z
+		}
+	}
+}
+
 interface Polygon {
 	point1: Point,
 	point2: Point,
@@ -77,12 +108,15 @@ function translateShape(shape: Shape, translation: Vector): Shape {
 export {
 	renderPolygon,
 	renderShape,
-	translateShape
+	renderCircle,
+	translateShape,
+	translateCircle
 }
 
 export type {
 	Shape,
 	Vector,
 	Point,
-	Polygon
+	Polygon,
+	Circle
 }

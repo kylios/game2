@@ -5,7 +5,8 @@ import Game, {
   Player,
   KeyboardController,
   RandomMotionController,
-  Mountain
+  Mountain,
+  Tree
 } from './game'
 
 const GAME_WIDTH = 640
@@ -14,6 +15,34 @@ const GAME_HEIGHT = 480
 
 interface Props {}
 interface State {}
+
+const TREE_DEF = {
+  trunkDiameter: 6,
+  circle1: {
+    radius: 4,
+    center: {
+      x: -6,
+      y: -5,
+      z: 0
+    }
+  },
+  circle2: {
+    radius: 8,
+    center: {
+      x: 4,
+      y: -3,
+      z: 0
+    }
+  },
+  circle3: {
+    radius: 7,
+    center: {
+      x: -2,
+      y: 4,
+      z: 0
+    }
+  }
+}
 
 
 class App extends React.Component<Props, State> {
@@ -39,6 +68,9 @@ class App extends React.Component<Props, State> {
     },
     height: 180
   })
+  private tree1 = new Tree(280, 360, TREE_DEF)
+  private tree2 = new Tree(305, 360, TREE_DEF)
+  private tree3 = new Tree(330, 360, TREE_DEF)
 
   componentDidMount() {
 
@@ -58,8 +90,11 @@ class App extends React.Component<Props, State> {
     this.player.setMovementController(this.keyboardController)
     this.keyboardController.startCapturing()
 
-    this.game.addObject(this.player)
     this.game.addObject(this.mountain1)
+    this.game.addObject(this.player)
+    this.game.addObject(this.tree1)
+    this.game.addObject(this.tree2)
+    this.game.addObject(this.tree3)
     this.game.start()
   }
 
