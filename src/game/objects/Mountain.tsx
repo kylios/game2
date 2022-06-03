@@ -1,5 +1,5 @@
 import GameObject from '../GameObject'
-import Shape, { render as renderShape, translate } from '../Shape'
+import { Shape, renderShape, translateShape } from '../Geometry'
 
 interface FlatPoint {
 	x: number,
@@ -90,11 +90,11 @@ class Mountain extends GameObject {
 		super(x, y)
 
 		this.def = def
-		this.shape = translate(mountainDefToShape(def), { x, y, z: 0 })
+		this.shape = translateShape(mountainDefToShape(def), { x, y, z: 0 })
 	}
 
 	update(): void {
-		this.shape = translate(
+		this.shape = translateShape(
 			mountainDefToShape(this.def),
 			{ x: this.x, y: this.y, z: 0}
 		)
