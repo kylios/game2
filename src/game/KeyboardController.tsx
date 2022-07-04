@@ -1,5 +1,6 @@
 import { MovementController, Movement } from './Controller'
-import { GameObject, Bounded } from './GameObject'
+
+const SPEED = 4
 
 class KeyboardController extends MovementController {
 
@@ -31,40 +32,18 @@ class KeyboardController extends MovementController {
 		}
 		this.keysPressed.forEach(key => {
 			if (key === 'ArrowLeft') {
-				movement.x -= 1
+				movement.x -= SPEED
 			} else if (key === 'ArrowRight') {
-				movement.x += 1
+				movement.x += SPEED
 			} else if (key === 'ArrowUp') {
-				movement.y -= 1
+				movement.y -= SPEED
 			} else if (key === 'ArrowDown') {
-				movement.y += 1
+				movement.y += SPEED
 			}
 		})
 
 		return movement
 	}
-
-	// _moveObject(key: string, gameObject: Bounded, num: number): void {
-	// 	if (key === 'ArrowDown') {
-	// 		const newY = gameObject.y += num
-	// 		gameObject.y = newY	
-	// 	} else if (key === 'ArrowUp') {
-	// 		const newY = gameObject.y -= num
-	// 		gameObject.y = newY	
-	// 	} else if (key === 'ArrowLeft') {
-	// 		const newX = gameObject.x -= num
-	// 		gameObject.x = newX
-	// 	} else if (key === 'ArrowRight') {
-	// 		const newX = gameObject.x += num
-	// 		gameObject.x = newX
-	// 	}
-	// }
-
-	// update(gameObject: GameObject): void {
-	// 	this.keysPressed.forEach(key => {
-	// 		this._moveObject(key, gameObject as Bounded, 1)
-	// 	})
-	// }
 }
 
 export default KeyboardController

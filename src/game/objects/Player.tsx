@@ -2,10 +2,8 @@ import { GameObject, Bounded } from '../GameObject'
 import { MovementController } from '../Controller'
 import Game from '../index'
 
-const PLAYER_WIDTH: number = 16
-const PLAYER_HEIGHT: number = 16
-
-const PLAYER_COLOR: string = 'black'
+const PLAYER_WIDTH: number = 32
+const PLAYER_HEIGHT: number = 32
 
 interface Collisions {
 	x: GameObject[],

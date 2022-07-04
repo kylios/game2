@@ -117,24 +117,12 @@ interface Cube {
 	depth: number
 }
 
-function translateCube(cube: Cube, translation: Vector): Cube {
-	return {
-		...cube,
-		corner: {
-			x: cube.corner.x + translation.x,
-			y: cube.corner.y + translation.y,
-			z: cube.corner.z + translation.z
-		}
-	}
-}
-
 export {
 	renderPolygon,
 	renderShape,
 	renderCircle,
 	translateShape,
-	translateCircle,
-	// translateCube
+	translateCircle
 }
 
 export type {

@@ -1,7 +1,5 @@
 import { GameObject, Bounded } from './GameObject'
 
-import { isEqual } from 'lodash'
-
 abstract class Controller {
 	abstract update(gameObject: GameObject): void
 }
@@ -94,6 +92,9 @@ abstract class MovementController {
     let collidedOnX = false
     let collidedOnY = false
 
+    let newX = gameObject.x + movement.x
+    let newY = gameObject.y + movement.y
+
     // collision detection
     const myPoint = {
       x: gameObject.x + gameObject.volume.corner.x,
@@ -118,6 +119,7 @@ abstract class MovementController {
 
         if (collided) {
           collidedOnX = true
+          newX = theirPoint.x + obj.volume.width + 1 - gameObject.volume.corner.x
         }
       } else if (movement.x > 0) {
         const collided = this._collidedOnXGoingRight(
@@ -127,6 +129,7 @@ abstract class MovementController {
 
         if (collided) {
           collidedOnX = true
+          newX = theirPoint.x - 1 - gameObject.volume.corner.x - gameObject.volume.width
         }
       }
 
@@ -138,6 +141,7 @@ abstract class MovementController {
 
         if (collided) {
           collidedOnY = true
+          newY = theirPoint.y + obj.volume.height + 1 - gameObject.volume.corner.y
         }
       } else if (movement.y > 0) {
         const collided = this._collidedOnYGoingDown(
@@ -147,16 +151,13 @@ abstract class MovementController {
 
         if (collided) {
           collidedOnY = true
+          newY = theirPoint.y - 1 - gameObject.volume.corner.y - gameObject.volume.height
         }
       }
     })
 
-    if (!collidedOnX) {
-      gameObject.x += movement.x
-    }
-    if (!collidedOnY) {
-      gameObject.y += movement.y
-    }
+    gameObject.x = newX
+    gameObject.y = newY
 
     return collidedOnX || collidedOnY
   }

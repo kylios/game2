@@ -1,5 +1,4 @@
 import { MovementController, Movement } from './Controller'
-import { GameObject } from './GameObject'
 
 class RandomMotionController extends MovementController {
 
