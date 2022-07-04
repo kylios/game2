@@ -1,19 +1,17 @@
-import Controller from './Controller'
-import GameObject from './GameObject'
+import { MovementController, Movement } from './Controller'
+import { GameObject } from './GameObject'
 
-class RandomMotionController extends Controller {
+class RandomMotionController extends MovementController {
 
-	update(gameObject: GameObject): void {
-		const rand = Math.random()
-
-		if (rand < 0.25) {
-			gameObject.y++
-		} else if (rand < .5) {
-			gameObject.y--
-		} else if (rand < 0.75) {
-			gameObject.x++
-		} else {
-			gameObject.x--
+	protected _getMovementDelta(): Movement {
+		const randX = Math.random()
+		const randY = Math.random()
+		const randZ = Math.random()
+		
+		return {
+			x: randX < 0.25 ? -1 : randX < 0.5 ? 1 : 0,
+			y: randY < 0.25 ? -1 : randY < 0.5 ? 1 : 0,
+			z: randZ < 0.25 ? -1 : randZ < 0.5 ? 1 : 0
 		}
 	}
 }

@@ -1,7 +1,7 @@
-import Controller from './Controller'
-import GameObject from './GameObject'
+import { MovementController, Movement } from './Controller'
+import { GameObject, Bounded } from './GameObject'
 
-class KeyboardController extends Controller {
+class KeyboardController extends MovementController {
 
 	private keysPressed: Set<string> = new Set()
 
@@ -23,23 +23,48 @@ class KeyboardController extends Controller {
 		this.keysPressed.delete(keyEvent.key)
 	}
 
-	_moveObject(key: string, gameObject: GameObject, num: number): void {
-		if (key === 'ArrowDown') {
-			gameObject.y += num
-		} else if (key === 'ArrowUp') {
-			gameObject.y -= num
-		} else if (key === 'ArrowLeft') {
-			gameObject.x -= num
-		} else if (key === 'ArrowRight') {
-			gameObject.x += num
+	protected _getMovementDelta(): Movement {
+		const movement = {
+			x: 0,
+			y: 0,
+			z: 0
 		}
+		this.keysPressed.forEach(key => {
+			if (key === 'ArrowLeft') {
+				movement.x -= 1
+			} else if (key === 'ArrowRight') {
+				movement.x += 1
+			} else if (key === 'ArrowUp') {
+				movement.y -= 1
+			} else if (key === 'ArrowDown') {
+				movement.y += 1
+			}
+		})
+
+		return movement
 	}
 
-	update(gameObject: GameObject): void {
-		this.keysPressed.forEach(key => {
-			this._moveObject(key, gameObject, 1)
-		})
-	}
+	// _moveObject(key: string, gameObject: Bounded, num: number): void {
+	// 	if (key === 'ArrowDown') {
+	// 		const newY = gameObject.y += num
+	// 		gameObject.y = newY	
+	// 	} else if (key === 'ArrowUp') {
+	// 		const newY = gameObject.y -= num
+	// 		gameObject.y = newY	
+	// 	} else if (key === 'ArrowLeft') {
+	// 		const newX = gameObject.x -= num
+	// 		gameObject.x = newX
+	// 	} else if (key === 'ArrowRight') {
+	// 		const newX = gameObject.x += num
+	// 		gameObject.x = newX
+	// 	}
+	// }
+
+	// update(gameObject: GameObject): void {
+	// 	this.keysPressed.forEach(key => {
+	// 		this._moveObject(key, gameObject as Bounded, 1)
+	// 	})
+	// }
 }
 
 export default KeyboardController

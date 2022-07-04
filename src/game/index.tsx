@@ -1,33 +1,17 @@
-import GameObject from './GameObject'
-import Controller from './Controller'
+import { GameObject, Bounded } from './GameObject'
+import { Controller, MovementController } from './Controller'
 import KeyboardController from './KeyboardController'
 import RandomMotionController from './RandomMotionController'
 import Player from './objects/Player'
 import Mountain from './objects/Mountain'
 import Tree from './objects/Tree'
 
-interface Dictionary<T> {
-    [Key: string]: T;
-}
-
-
-const logOnce = (() => {
-	const logged: Dictionary<boolean> = {}
-	return function _logOnce(toLog: any): void {
-		const key = `${toLog}`
-		if (!logged[key]) {
-			console.log(toLog)
-			logged[key] = true
-		}
-	}
-})()
-
 class Game {
 	private width: number
 	private height: number
 	private ctx: CanvasRenderingContext2D
 
-	private objects: GameObject[] = []
+	public objects: GameObject[] = []
 
 	private bufferCanvas: HTMLCanvasElement = document.createElement('canvas')
 	private bufferCtx: CanvasRenderingContext2D
@@ -36,8 +20,6 @@ class Game {
 		this.width = width
 		this.height = height
 		this.ctx = ctx
-
-		console.log(this.width, this.height)
 
 		this.bufferCanvas.width = this.width
 		this.bufferCanvas.height = this.height
@@ -76,7 +58,9 @@ class Game {
 export default Game
 export {
 	GameObject,
+	Bounded,
 	Controller,
+	MovementController,
 	KeyboardController,
 	Player,
 	Mountain,

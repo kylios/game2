@@ -1,5 +1,6 @@
-import GameObject from '../GameObject'
-import { Shape, renderShape, translateShape } from '../Geometry'
+import { Bounded } from '../GameObject'
+import { Shape, renderShape, translateShape, Cube } from '../Geometry'
+import Game from '../index'
 
 interface FlatPoint {
 	x: number,
@@ -10,7 +11,8 @@ interface MountainDef {
 	corner1: FlatPoint,
 	corner2: FlatPoint,
 	corner3: FlatPoint,
-	height: number
+	height: number,
+	bounds: Cube
 }
 
 function mountainDefToShape(def: MountainDef): Shape {
@@ -81,13 +83,13 @@ function mountainDefToShape(def: MountainDef): Shape {
 	}
 }
 
-class Mountain extends GameObject {
+class Mountain extends Bounded {
 
 	shape: Shape
 	def: MountainDef
 
-	constructor(x: number, y: number, def: MountainDef) {
-		super(x, y)
+	constructor(game: Game, x: number, y: number, def: MountainDef) {
+		super(game, x, y, def.bounds)
 
 		this.def = def
 		this.shape = translateShape(mountainDefToShape(def), { x, y, z: 0 })
@@ -103,6 +105,9 @@ class Mountain extends GameObject {
 	render(ctx: CanvasRenderingContext2D): void {
 		ctx.save()
 		renderShape(ctx, this.shape, 'grey', 'black')
+
+		ctx.strokeStyle = 'red'
+		ctx.strokeRect(this.x + this.volume.corner.x, this.y + this.volume.corner.y, this.volume.width, this.volume.height)
 		ctx.restore()
 	}
 }

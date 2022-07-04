@@ -1,42 +1,56 @@
-import GameObject from '../GameObject'
-import { Circle, renderCircle, translateCircle } from '../Geometry'
+import Game from '../index'
+import { Bounded } from '../GameObject'
+import { Circle, renderCircle, translateCircle, Cube } from '../Geometry'
 
 interface TreeDef {
 	trunkDiameter: number,
-	circle1: Circle,
-	circle2: Circle,
-	circle3: Circle
+	circles: Circle[],
+	bounds: Cube
 }
 
-class Tree extends GameObject {
+function generateRandomTreeDef(width: number, height: number, trunkDiameter: number): TreeDef {
+	const numCircles = Math.floor(Math.random() * 3 + 3) // between 3-5 circles
+
+	return {
+		trunkDiameter,
+		circles: [],
+		bounds: {
+			width: 0,
+			height: 0,
+			depth: 0,
+			corner: {
+				x: 0,
+				y: 0,
+				z: 0
+			}
+		}
+	}
+}
+
+class Tree extends Bounded {
 
 	def: TreeDef
-	circle1: Circle
-	circle2: Circle
-	circle3: Circle
+	circles: Circle[]
 
-	constructor(x: number, y: number, def: TreeDef) {
-		super(x, y)
+	constructor(game: Game, x: number, y: number, def: TreeDef) {
+		super(game, x, y, def.bounds)
 
 		this.def = def
 
 		const vector = {x: this.x, y: this.y, z: 0}
-		this.circle1 = translateCircle(this.def.circle1, vector)
-		this.circle2 = translateCircle(this.def.circle2, vector)
-		this.circle3 = translateCircle(this.def.circle3, vector)
+		this.circles = this.def.circles.map(circle => translateCircle(circle, vector))
 	}
 
 	update(): void {
 		const vector = {x: this.x, y: this.y, z: 0}
-		this.circle1 = translateCircle(this.def.circle1, vector)
-		this.circle2 = translateCircle(this.def.circle2, vector)
-		this.circle3 = translateCircle(this.def.circle3, vector)
+		this.circles = this.def.circles.map(circle => translateCircle(circle, vector))
 	}
 
 	render(ctx: CanvasRenderingContext2D): void {
-		renderCircle(ctx, this.circle1, 'green', 'black')
-		renderCircle(ctx, this.circle2, 'green', 'black')
-		renderCircle(ctx, this.circle3, 'green', 'black')
+		this.circles.forEach(circle => renderCircle(ctx, circle, 'green', 'black'))
+
+		ctx.strokeStyle = 'red'
+		ctx.strokeRect(this.x + this.volume.corner.x, this.y + this.volume.corner.y, this.volume.width, this.volume.height)
 	}
 }
 

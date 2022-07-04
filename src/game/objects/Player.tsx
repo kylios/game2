@@ -1,47 +1,78 @@
-import GameObject from '../GameObject'
-import Controller from '../Controller'
+import { GameObject, Bounded } from '../GameObject'
+import { MovementController } from '../Controller'
+import Game from '../index'
 
 const PLAYER_WIDTH: number = 16
 const PLAYER_HEIGHT: number = 16
 
-const PLAYER_COLOR: string = 'red'
+const PLAYER_COLOR: string = 'black'
 
-
-interface Dictionary<T> {
-    [Key: string]: T;
+interface Collisions {
+	x: GameObject[],
+	y: GameObject[],
+	z: GameObject[]
 }
 
-const logOnce = (() => {
-	const logged: Dictionary<boolean> = {}
-	return function _logOnce(toLog: any): void {
-		const key = `${toLog}`
-		if (!logged[key]) {
-			console.log(toLog)
-			logged[key] = true
-		}
+class Player extends Bounded {
+	private movementController: MovementController | null = null
+
+	constructor(game: Game, width: number, height: number) {
+		super(game, width, height, {
+			corner: {
+				x: -PLAYER_WIDTH / 2,
+				y: -PLAYER_HEIGHT / 2,
+				z: 0
+			},
+			width: PLAYER_WIDTH,
+			height: PLAYER_HEIGHT,
+			depth: 0
+		})
 	}
-})()
 
-class Player extends GameObject {
-	private movementController: Controller | null = null
-
-	setMovementController(movementController: Controller) {
+	setMovementController(movementController: MovementController): void {
 		this.movementController = movementController
 	}
 
+	_checkCollisions(game: Game): Collisions {
+		const allCollisions: Collisions = {
+			x: [],
+			y: [],
+			z: []
+		}		
+
+		game.objects.forEach(obj => {
+			if (obj !== this && obj instanceof Bounded) {
+				const collisions = this.collidesWith(obj as Bounded)
+				if (collisions.x) {
+					allCollisions.x.push(obj)
+				}
+				if (collisions.y) {
+					allCollisions.y.push(obj)
+				}
+				if (collisions.z) {
+					allCollisions.z.push(obj)
+				}
+			}
+		})
+
+		return allCollisions
+	}
+
 	update(): void {
-		if (this.movementController !== null) {
-			this.movementController.update(this)
+		if (this.movementController === null) {
+			return
 		}
+
+		this.movementController.update(this)
 	}
 
 	render(ctx: CanvasRenderingContext2D): void {
 		ctx.save()
 
 		ctx.beginPath()
-		ctx.fillStyle = PLAYER_COLOR
+		ctx.fillStyle = this.isColliding ? 'red' : 'black'
 		ctx.lineWidth = 1
-		ctx.rect(this.x - PLAYER_WIDTH / 2.0, this.y - PLAYER_HEIGHT / 2.0, PLAYER_WIDTH, PLAYER_HEIGHT)
+		ctx.rect(this.x + this.volume.corner.x, this.y + this.volume.corner.y, PLAYER_WIDTH, PLAYER_HEIGHT)
 		ctx.fill()
 
 		ctx.fillStyle = 'black'

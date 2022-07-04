@@ -105,12 +105,36 @@ function translateShape(shape: Shape, translation: Vector): Shape {
 	}
 }
 
+interface Cube {
+	/*
+	 * This is the top-left corner looking straight down from the canvas.
+	 * The positive axes run to the right, down, and towards the viewer.
+	 */
+	corner: Point,
+
+	width: number,
+	height: number,
+	depth: number
+}
+
+function translateCube(cube: Cube, translation: Vector): Cube {
+	return {
+		...cube,
+		corner: {
+			x: cube.corner.x + translation.x,
+			y: cube.corner.y + translation.y,
+			z: cube.corner.z + translation.z
+		}
+	}
+}
+
 export {
 	renderPolygon,
 	renderShape,
 	renderCircle,
 	translateShape,
-	translateCircle
+	translateCircle,
+	// translateCube
 }
 
 export type {
@@ -118,5 +142,6 @@ export type {
 	Vector,
 	Point,
 	Polygon,
-	Circle
+	Circle,
+	Cube
 }
