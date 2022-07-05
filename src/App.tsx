@@ -6,56 +6,15 @@ import Game, {
   KeyboardController,
   RandomMotionController,
   Mountain,
-  Tree
+  Tree,
+  generateRandomTreeDef
 } from './game'
 
 const GAME_WIDTH = 640
 const GAME_HEIGHT = 480
 
-
 interface Props {}
 interface State {}
-
-const TREE_DEF = {
-  trunkDiameter: 6,
-  circles: [
-    {
-      radius: 4,
-      center: {
-        x: -6,
-        y: -5,
-        z: 0
-      }
-    },
-    {
-      radius: 8,
-      center: {
-        x: 4,
-        y: -3,
-        z: 0
-      }
-    },
-    {
-      radius: 7,
-      center: {
-        x: -2,
-        y: 4,
-        z: 0
-      }
-    }
-  ],
-  bounds: {
-    corner: {
-      x: -8,
-      y: -7,
-      z: 0
-    },
-    width: 16,
-    height: 14,
-    depth: 0
-  }
-}
-
 
 class App extends React.Component<Props, State> {
 
@@ -107,9 +66,11 @@ class App extends React.Component<Props, State> {
         depth: 180
       }
     })
-    const tree1 = new Tree(this.game, 280, 360, TREE_DEF)
-    const tree2 = new Tree(this.game, 305, 360, TREE_DEF)
-    const tree3 = new Tree(this.game, 330, 360, TREE_DEF)
+    const tree1 = new Tree(this.game, 280, 360, generateRandomTreeDef(32, 32, 8))
+    const tree2 = new Tree(this.game, 312, 360, generateRandomTreeDef(32, 32, 8))
+    const tree3 = new Tree(this.game, 344, 360, generateRandomTreeDef(32, 32, 8))
+    const tree4 = new Tree(this.game, 312, 392, generateRandomTreeDef(32, 32, 8))
+    const tree5 = new Tree(this.game, 312, 424, generateRandomTreeDef(32, 32, 8))
 
     player.setMovementController(this.keyboardController)
     this.keyboardController.startCapturing()
@@ -119,6 +80,8 @@ class App extends React.Component<Props, State> {
     this.game.addObject(tree1)
     this.game.addObject(tree2)
     this.game.addObject(tree3)
+    this.game.addObject(tree4)
+    this.game.addObject(tree5)
     this.game.start()
   }
 

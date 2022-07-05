@@ -4,7 +4,7 @@ import KeyboardController from './KeyboardController'
 import RandomMotionController from './RandomMotionController'
 import Player from './objects/Player'
 import Mountain from './objects/Mountain'
-import Tree from './objects/Tree'
+import Tree, { generateRandomTreeDef } from './objects/Tree'
 
 class Game {
 	private width: number
@@ -65,5 +65,6 @@ export {
 	Player,
 	Mountain,
 	Tree,
+	generateRandomTreeDef,
 	RandomMotionController
 }

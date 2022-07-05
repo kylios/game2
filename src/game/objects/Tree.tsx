@@ -8,15 +8,40 @@ interface TreeDef {
 	bounds: Cube
 }
 
-function generateRandomTreeDef(width: number, height: number, trunkDiameter: number): TreeDef {
+export function generateRandomTreeDef(width: number, height: number, trunkDiameter: number): TreeDef {
 	const numCircles = Math.floor(Math.random() * 3 + 3) // between 3-5 circles
+
+	const circles: Circle[] = []
+
+	const dim = Math.min(width, height)
+	let radius = 0
+	for (let i = 0; i < numCircles; i++) {
+
+		if (radius !== 0) {
+			radius = (Math.random() * 0.6 * radius) + (0.4 * radius)
+		} else {
+			radius = (Math.random() * 0.4 * dim / 2) + (0.6 * dim / 2)
+		}
+
+		const x = Math.random() * (width - radius * 2) + radius
+		const y = Math.random() * (height - radius * 2) + radius
+
+		circles.push({
+			center: {
+				x,
+				y,
+				z: 0
+			},
+			radius
+		})
+	}
 
 	return {
 		trunkDiameter,
-		circles: [],
+		circles,
 		bounds: {
-			width: 0,
-			height: 0,
+			width,
+			height,
 			depth: 0,
 			corner: {
 				x: 0,
